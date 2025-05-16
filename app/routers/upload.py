@@ -41,7 +41,7 @@ async def upload_image(user: CurrentUserDep, file: UploadFile = File(...)):
             "success": 1,
             "file": {
                 "url": (
-                    f"{settings.ORIGIN}/api/{settings.UPLOAD_DIR}"
+                    f"https://{settings.ORIGIN}/api/{settings.UPLOAD_DIR}"
                     f"/images/{safe_filename}",
                 )
             },
