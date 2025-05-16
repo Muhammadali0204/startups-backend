@@ -50,7 +50,7 @@ async def create_project(
         file_data = block.data.get("file", None)
         if file_data:
             project_image_url = file_data.get("url")[0]
-            return
+            break
 
     serialized_blocks = [block.model_dump() for block in blocks]
     await Project.create(
