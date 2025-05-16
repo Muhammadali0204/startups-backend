@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
     BOT_TOKEN: str
-    ORIGINS: List[str]
+    ORIGINS: str
 
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
