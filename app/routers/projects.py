@@ -1,3 +1,4 @@
+import os
 import random
 import uuid
 from typing import List
@@ -10,6 +11,7 @@ from app.core.project import shorter
 from app.core.deps import CurrentUserDep, OptionalUserDep
 from app.schemas.project import CreateProjectData, ShortProjectOut
 from app.models.models import Project, ProjectLike, ProjectShare, ProjectView
+from app.core.config import settings
 
 
 router = APIRouter()
@@ -48,6 +50,7 @@ async def create_project(
         file_data = block.data.get("file", None)
         if file_data:
             project_image_url = file_data.get("url")[0]
+            return
 
     serialized_blocks = [block.model_dump() for block in blocks]
     await Project.create(
@@ -114,6 +117,15 @@ async def get_project(id: uuid.UUID, user: OptionalUserDep):
 async def delete_project(user: CurrentUserDep, id: uuid.UUID):
     project = await Project.filter(id=id).first()
     if project:
+        for item in project.data:
+            if item['type'] == "image":
+                urls = item['data']['file']['url']
+                for url in urls:
+                    relative_path = url.split("/api/")[1]
+                    try:
+                        os.remove(os.path.join(settings.BASE_DIR, relative_path))
+                    except:
+                        pass
         await project.delete()
         return {"message": "Deleted"}
     return JSONResponse(
