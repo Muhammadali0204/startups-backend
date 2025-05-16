@@ -19,7 +19,7 @@ app.mount(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ORIGINS,
+    allow_origins=[settings.ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

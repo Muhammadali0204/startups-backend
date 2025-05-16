@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
     BOT_TOKEN: str
-    ORIGINS: List[str]
+    ORIGIN: str
 
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
@@ -31,10 +31,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 180
     BASE_DIR: Path = Path(__file__).resolve().parent.parent
     UPLOAD_DIR: str = "uploads"
-
-    LOCAL_HOST: str = "http://localhost:8080"
-    GLOBAL_HOST: str = "https://above-chipmunk-endlessly.ngrok-free.app"
-    GLOBAL_HOST: str = "https://startupsuz.loca.lt/"
 
     ALLOWED_IMAGE_TYPES: List[str] = [
         "image/jpeg",
