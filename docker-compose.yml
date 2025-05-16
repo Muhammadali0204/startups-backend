@@ -4,7 +4,7 @@ services:
     container_name: ${PROJECT_NAME}_backend
     restart: always
     ports:
-      - "8080:8000"
+      - "8003:8000"
     depends_on:
       - db
     env_file:
