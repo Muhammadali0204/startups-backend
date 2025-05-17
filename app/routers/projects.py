@@ -7,7 +7,7 @@ from tortoise.functions import Count
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Body, status, Query
 
-from app.core.project import shorter
+from app.core.project import fuzzy_multiword_search, shorter
 from app.core.deps import CurrentUserDep, OptionalUserDep
 from app.schemas.project import CreateProjectData, ShortProjectOut
 from app.models.models import Project, ProjectLike, ProjectShare, ProjectView
@@ -214,14 +214,10 @@ async def get_most_liked_projects():
 
 @router.get(path="/search", response_model=List[ShortProjectOut])
 async def search_project(q: str = Query(..., min_length=3, max_length=20)):
-    all_projects = await Project.filter(
-        Q(title__icontains=q) | Q(subtitle__icontains=q)
-    )
-    if all_projects == []:
+    projects = await fuzzy_multiword_search(q)
+    if projects == []:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND, content="No projects like that"
         )
-
-    selected_projects = random.sample(all_projects, min(10, len(all_projects)))
-
-    return selected_projects
+    projects = [ShortProjectOut(**row) for row in projects]
+    return projects
