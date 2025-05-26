@@ -146,6 +146,7 @@ pyrightconfig.json
 # DB
 data/
 .vscode/
+migrations/
 
 app/uploads/images/*
 app/uploads/videos/*
